@@ -35,13 +35,13 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import pl.setblack.exp.galakpizza.load.OrdersSimulator;
-import pl.setblack.exp.galakpizza.system.GalakPizza;
+import pl.setblack.exp.galakpizza.system.GalakPizzaCore;
 
 public class MyBenchmark {
 
     @State(Scope.Benchmark)
     public static  class GalaxyState {
-        final GalakPizza gp = new GalakPizza();
+        final GalakPizzaCore gp = new GalakPizzaCore();
         final OrdersSimulator simulator = new OrdersSimulator(gp);
     }
 
