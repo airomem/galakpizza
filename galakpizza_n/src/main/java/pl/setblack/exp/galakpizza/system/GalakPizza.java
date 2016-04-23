@@ -25,6 +25,7 @@ public class GalakPizza implements GalakPizzaService {
                 .withinUserFolder("pizza")
                 .withJournalFastSerialization(true)
                 .useSupplier( () -> new GalakPizzaCore())
+                .disableRoyalFoodTester()
                 .build();
     }
 

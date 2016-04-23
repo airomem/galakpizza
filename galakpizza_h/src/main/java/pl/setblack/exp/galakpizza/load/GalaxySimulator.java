@@ -19,6 +19,7 @@ public class GalaxySimulator {
 
     public static void main(String... args) {
         runSimulation(5000);
+        System.gc();
         long orders = runSimulation(SECONDS_TOTAL*1000);
         System.out.println("Orders placed:" + orders);
         System.out.println("O/S:" + (double)orders/(double) SECONDS_TOTAL);

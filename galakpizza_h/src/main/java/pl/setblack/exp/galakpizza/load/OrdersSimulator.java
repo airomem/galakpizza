@@ -29,7 +29,7 @@ public class OrdersSimulator implements Runnable {
     }
 
     public void placeRandomOrder() {
-        final String planetName = "planet" + rnd.nextInt(10000);
+        final String planetName = "planet" + rnd.nextInt(100000);
         final Variant var = Variant.values()[rnd.nextInt(Variant.values().length)];
         final Size size = Size.values()[rnd.nextInt(Size.values().length)];
         this.myPizza.placeOrder(planetName, var, size);
