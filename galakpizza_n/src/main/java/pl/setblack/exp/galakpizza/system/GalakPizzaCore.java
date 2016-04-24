@@ -37,7 +37,10 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     private Optional<PlanetOrders> takeBestPlanet() {
 
-        final PlanetOrders planet = this.bestPlanets.poll();
+        PlanetOrders planet = this.bestPlanets.poll();
+        while (planet != null && planet.isEmptied()) {
+            planet = this.bestPlanets.poll();
+        }
         return Optional.ofNullable(planet);
 
     }
@@ -52,7 +55,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
                 planetName -> new PlanetOrders(planetName));
         po.assignOrder(order);
 
-        this.bestPlanets.remove(po);
+        //this.bestPlanets.remove(po);
         this.bestPlanets.offer(po);
 
     }

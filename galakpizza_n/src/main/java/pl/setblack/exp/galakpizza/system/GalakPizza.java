@@ -30,12 +30,21 @@ public class GalakPizza implements GalakPizzaService {
 
     public void close() {
         controller.close();
+        deleteFiles();
+
+    }
+
+    private void deleteFiles() {
         try {
-            FileUtils.deleteDirectory(new File("/home/jarek/pizza"));
-        } catch (IOException  e) {
+            String path = System.getProperty("user.home")
+                    + File.separator
+                    + "prevayler"
+                    + File.separator
+                    + "pizza";
+            FileUtils.deleteDirectory(new File(path));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
