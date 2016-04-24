@@ -1,7 +1,7 @@
 package pl.setblack.exp.galakpizza.load;
 
 import org.hibernate.SessionFactory;
-import pl.setblack.exp.HibernateStart;
+import pl.setblack.exp.galakpizza.system.HibernateStart;
 import pl.setblack.exp.galakpizza.api.GalakPizzaService;
 import pl.setblack.exp.galakpizza.system.GalakPizza;
 

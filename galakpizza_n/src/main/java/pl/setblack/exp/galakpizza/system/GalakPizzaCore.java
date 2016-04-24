@@ -15,7 +15,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     private long orderSequence = 1;
 
-    private PriorityQueue<PlanetOrders> bestPlanets = new PriorityQueue<>();
+    private PriorityQueue<PlanetOrders> bestPlanets = new PriorityQueue<>(256);
 
     public long placeOrder(String planet, Variant variant, Size size) {
         final long id = orderSequence++;

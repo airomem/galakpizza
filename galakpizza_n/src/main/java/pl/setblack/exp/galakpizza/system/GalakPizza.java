@@ -18,12 +18,11 @@ import java.util.List;
 
 public class GalakPizza implements GalakPizzaService {
     final PersistenceController<GalakPizzaCore,GalakPizzaCore> controller;
-    final TakeOrders takeOrdersCmd = new TakeOrders();
+
     public GalakPizza() {
         controller = PrevaylerBuilder
                 .newBuilder()
                 .withinUserFolder("pizza")
-                .withJournalFastSerialization(true)
                 .useSupplier( () -> new GalakPizzaCore())
                 .disableRoyalFoodTester()
                 .build();
@@ -41,7 +40,7 @@ public class GalakPizza implements GalakPizzaService {
 
     @Override
     public List<Order> takeOrdersFromBestPlanet() {
-        return controller.executeAndQuery( takeOrdersCmd);
+        return controller.executeAndQuery( core->core.takeOrdersFromBestPlanet());
     }
 
     @Override
@@ -51,29 +50,8 @@ public class GalakPizza implements GalakPizzaService {
 
     @Override
     public long placeOrder(final String planet, final Variant variant, final Size size) {
-        return controller.executeAndQuery(new PlaceOrderEvent(planet, variant, size));
+        return controller.executeAndQuery( core -> core.placeOrder(planet,variant,size));
     }
 
-    private static class PlaceOrderEvent implements Command<GalakPizzaCore, Long >, Serializable {
-        public final String planet;
-        public final Variant variant;
-        public final Size size;
 
-        public PlaceOrderEvent(String planet, Variant variant, Size size) {
-            this.planet = planet;
-            this.variant = variant;
-            this.size = size;
-        }
-        @Override
-        public Long execute(GalakPizzaCore galakPizzaCore) {
-            return galakPizzaCore.placeOrder(planet, variant, size);
-        }
-    }
-
-    private static class TakeOrders implements Command<GalakPizzaCore, List<Order> > {
-        @Override
-        public List<Order> execute(GalakPizzaCore galakPizzaCore) {
-            return galakPizzaCore.takeOrdersFromBestPlanet();
-        }
-    }
 }
