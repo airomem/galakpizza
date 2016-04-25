@@ -15,7 +15,6 @@ public class Planet {
     @Id
     public final String name;
 
-
     private int count;
 
     protected Planet() {

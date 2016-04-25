@@ -29,9 +29,7 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     public void close() {
-        controller.close();
-        deleteFiles();
-
+        controller.erase();
     }
 
     private void deleteFiles() {
@@ -54,7 +52,7 @@ public class GalakPizza implements GalakPizzaService {
 
     @Override
     public long countStandingOrders() {
-        return controller.executeAndQuery(core -> core.countStandingOrders());
+        return controller.query( c->c.countStandingOrders());
     }
 
     @Override

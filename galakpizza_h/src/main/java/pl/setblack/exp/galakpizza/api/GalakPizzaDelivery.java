@@ -8,4 +8,5 @@ public interface GalakPizzaDelivery {
     List<Order> takeOrdersFromBestPlanet();
 
     long countStandingOrders();
+
 }

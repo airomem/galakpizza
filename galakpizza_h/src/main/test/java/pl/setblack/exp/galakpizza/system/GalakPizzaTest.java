@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pl.setblack.exp.HibernateStart;
+
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.domain.Size;
 import pl.setblack.exp.galakpizza.domain.Variant;
@@ -93,7 +93,7 @@ public class GalakPizzaTest {
         gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
         gp.placeOrder("planety", Variant.VEGETARIAN, Size.LARGE);
         gp.placeOrder("planetx", Variant.MARGHERITA, Size.MEDIUM);
-        gp.placeOrder("planety", Variant.VEGETARIAN, Size.EXTRA_LARGE);
+        gp.placeOrder("planety", Variant.VEGETARIAN, Size.XL);
         gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
 
 
@@ -109,7 +109,7 @@ public class GalakPizzaTest {
         gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
         gp.placeOrder("planety", Variant.VEGETARIAN, Size.LARGE);
         gp.placeOrder("planetz", Variant.MARGHERITA, Size.MEDIUM);
-        gp.placeOrder("planety", Variant.VEGETARIAN, Size.EXTRA_LARGE);
+        gp.placeOrder("planety", Variant.VEGETARIAN, Size.XL);
         gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
 
         gp.takeOrdersFromBestPlanet();

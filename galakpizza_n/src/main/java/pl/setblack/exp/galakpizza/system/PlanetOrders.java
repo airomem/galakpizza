@@ -13,8 +13,6 @@ class PlanetOrders implements Serializable, Comparable<PlanetOrders> {
 
     private boolean emptied = true;
 
-
-
     public PlanetOrders(String name) {
         this.name = name;
     }

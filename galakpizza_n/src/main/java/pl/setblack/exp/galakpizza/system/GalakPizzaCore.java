@@ -8,6 +8,7 @@ import pl.setblack.exp.galakpizza.domain.Variant;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable<GalakPizzaCore> {
@@ -17,11 +18,13 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     private PriorityQueue<PlanetOrders> bestPlanets = new PriorityQueue<>(256);
 
+    private AtomicLong ordersTotal = new AtomicLong(0);
+
     public long placeOrder(String planet, Variant variant, Size size) {
         final long id = orderSequence++;
         final Order order = new Order(id, planet, variant, size);
         assignOrderToPlanet(order);
-
+        ordersTotal.incrementAndGet();
         return id;
     }
 
@@ -30,6 +33,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
         if (planetOpt.isPresent()) {
             final PlanetOrders planet = planetOpt.get();
             List<Order> orders = planet.takeOrders();
+            ordersTotal.addAndGet(-orders.size());
             return orders;
         }
         return Collections.EMPTY_LIST;
@@ -47,17 +51,14 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     @Override
     public long countStandingOrders() {
-        return this.orders.values().stream().map(p -> p.takeOrders().size()).reduce(0, (x, y) -> x + y);
+        return this.ordersTotal.get();
     }
 
     private void assignOrderToPlanet(Order order) {
         final PlanetOrders po = orders.computeIfAbsent(order.planet,
                 planetName -> new PlanetOrders(planetName));
         po.assignOrder(order);
-
-        //this.bestPlanets.remove(po);
         this.bestPlanets.offer(po);
-
     }
 
     @Override

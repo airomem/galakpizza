@@ -25,9 +25,9 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     public long placeOrder(String planet, Variant variant, Size size) {
-        return this.runOnSession( session  -> {
+        return this.runOnSession(session -> {
             final Order orderEntity = new Order(planet, variant, size);
-            final Long key = (Long)session.save(orderEntity);
+            final Long key = (Long) session.save(orderEntity);
 
             incrementPlanetCounter(planet, session);
             return key;
@@ -36,23 +36,17 @@ public class GalakPizza implements GalakPizzaService {
 
     private void incrementPlanetCounter(String planet, Session session) {
         Planet planetEntity = session.get(Planet.class, planet);
-        if ( planetEntity == null) {
-            planetEntity =  new Planet(planet);
-            try {
-                session.save(planetEntity);
-            }
-            catch (ConstraintViolationException cve) {
-                incrementPlanetCounter(planet, session);
-                System.out.println("success!");
-            }
+        if (planetEntity == null) {
+            planetEntity = new Planet(planet);
+            session.save(planetEntity);
         }
         planetEntity.increment();
     }
 
     public List<Order> takeOrdersFromBestPlanet() {
-        return this.runOnSession( session  -> {
+        return this.runOnSession(session -> {
             final Query bestPlanetQuery = session.createQuery("SELECT p  FROM Planet p " +
-                    "ORDER BY p.count desc" );
+                    "ORDER BY p.count desc");
             bestPlanetQuery.setMaxResults(1);
             final Iterator<Planet> bestPlanetsIterator = bestPlanetQuery.iterate();
             if (bestPlanetsIterator.hasNext()) {
@@ -66,19 +60,17 @@ public class GalakPizza implements GalakPizzaService {
             }
             return Collections.EMPTY_LIST;
         });
- }
-
+    }
 
 
     @Override
     public long countStandingOrders() {
-        return this.runOnSession( session -> {
+        return this.runOnSession(session -> {
             final Query ordersCount = session.createQuery("SELECT count(o)  FROM Order o ");
-            final Long cnt = (Long)ordersCount.iterate().next();
+            final Long cnt = (Long) ordersCount.iterate().next();
             return cnt;
         });
     }
-
 
 
     private <T> T runOnSession(Function<Session, T> dbCommand) {
@@ -93,6 +85,10 @@ public class GalakPizza implements GalakPizzaService {
             session.getTransaction().rollback();
             session.close();
             return runOnSession(dbCommand);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            throw new RuntimeException(t);
+
         }
 
     }

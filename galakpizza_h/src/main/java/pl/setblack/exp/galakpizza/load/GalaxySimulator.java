@@ -20,33 +20,43 @@ public class GalaxySimulator {
     public static void main(String... args) {
         runSimulation(5000);
         System.gc();
-        long orders = runSimulation(SECONDS_TOTAL*1000);
-        System.out.println("Orders placed:" + orders);
-        System.out.println("O/S:" + (double)orders/(double) SECONDS_TOTAL);
+        sleep();
+        Result result = runSimulation(SECONDS_TOTAL*1000);
+        System.out.println("Orders processed:" + result.processed);
+        System.out.println("p/s:" + (double)result.processed/(double) SECONDS_TOTAL);
+        System.out.println("Orders seen:" + result.seen);
+        System.out.println("o/s:" + (double)result.seen/(double) SECONDS_TOTAL);
     }
 
-    private static long runSimulation(long time) {
+    private static Result runSimulation(long time) {
         final HibernateStart hibernate = new HibernateStart();
         final SessionFactory sf = hibernate.init();
         final GalakPizza gp = new GalakPizza(sf);
         final GalaxySimulator simulator = new GalaxySimulator(gp);
-        long result =   simulator.runGalaxy(time, 4, 1);
+        Result result =   simulator.runGalaxy(time, 4, 1);
         hibernate.close();
         return result;
     }
 
-    public long runGalaxy(long time, int clientThreads, int deliveryThreads) {
+    public Result runGalaxy(long time, int clientThreads, int deliveryThreads) {
         final List<OrdersSimulator> clients = new ArrayList<>();
         final List<DeliverySimulator> delivery = new ArrayList<>();
+        final List<SupervisorSimulator> supervisor = new ArrayList<>();
+
         for (int i = 0; i < clientThreads; i++) {
             clients.add(new OrdersSimulator(galakPizza));
         }
         for (int i = 0; i < deliveryThreads; i++) {
             delivery.add(new DeliverySimulator(galakPizza));
         }
+        for (int i = 0; i < 2; i++) {
+            supervisor.add(new SupervisorSimulator(galakPizza));
+        }
 
         clients.forEach(c -> new Thread(c).start());
         delivery.forEach(c -> new Thread(c).start());
+        supervisor.forEach(c -> new Thread(c).start());
+
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
@@ -55,15 +65,13 @@ public class GalaxySimulator {
 
         clients.forEach(cl ->cl.stopSimulation());
         delivery.forEach( dl ->dl.stopSimulation());
+        supervisor.forEach( dl ->dl.stopSimulation());
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        sleep();
 
         final long orders = clients.stream().map(c -> c.getFinalState()).reduce(0L, (x, y) -> x + y);
         final long performedOrders = delivery.stream().map(d -> d.getFinalState()).reduce(0L, (x, y) -> x + y);
+        final long seenOrders = supervisor.stream().map(d -> d.getFinalState()).reduce(0L, (x, y) -> x + y);
 
         final long standingOrders = galakPizza.countStandingOrders();
 
@@ -72,6 +80,14 @@ public class GalaxySimulator {
                     +(standingOrders+performedOrders)+ " <> "+orders );
         }
 
-        return performedOrders;
+        return new Result(performedOrders, seenOrders);
+    }
+
+    private static void sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

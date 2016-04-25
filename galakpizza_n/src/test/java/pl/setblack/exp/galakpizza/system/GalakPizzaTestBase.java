@@ -78,7 +78,7 @@ public abstract class GalakPizzaTestBase<G extends GalakPizzaService> {
         gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
         gp.placeOrder("planety", Variant.VEGETARIAN, Size.LARGE);
         gp.placeOrder("planetx", Variant.MARGHERITA, Size.MEDIUM);
-        gp.placeOrder("planety", Variant.VEGETARIAN, Size.EXTRA_LARGE);
+        gp.placeOrder("planety", Variant.VEGETARIAN, Size.XL);
         gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
 
 
@@ -94,7 +94,7 @@ public abstract class GalakPizzaTestBase<G extends GalakPizzaService> {
         gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
         gp.placeOrder("planety", Variant.VEGETARIAN, Size.LARGE);
         gp.placeOrder("planetz", Variant.MARGHERITA, Size.MEDIUM);
-        gp.placeOrder("planety", Variant.VEGETARIAN, Size.EXTRA_LARGE);
+        gp.placeOrder("planety", Variant.VEGETARIAN, Size.XL);
         gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
 
         gp.takeOrdersFromBestPlanet();
