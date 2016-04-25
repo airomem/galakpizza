@@ -29,7 +29,7 @@ public class GalakPizza implements GalakPizzaService {
             final Order orderEntity = new Order(planet, variant, size);
             final Long key = (Long) session.save(orderEntity);
 
-            incrementPlanetCounter(planet, session);
+            //incrementPlanetCounter(planet, session);
             return key;
         });
     }
@@ -45,16 +45,16 @@ public class GalakPizza implements GalakPizzaService {
 
     public List<Order> takeOrdersFromBestPlanet() {
         return this.runOnSession(session -> {
-            final Query bestPlanetQuery = session.createQuery("SELECT p  FROM Planet p " +
-                    "ORDER BY p.count desc");
+            final Query bestPlanetQuery = session.getNamedQuery("select best planet");
             bestPlanetQuery.setMaxResults(1);
-            final Iterator<Planet> bestPlanetsIterator = bestPlanetQuery.iterate();
+            final Iterator<Object[]> bestPlanetsIterator = bestPlanetQuery.iterate();
             if (bestPlanetsIterator.hasNext()) {
-                final Planet bestOne = bestPlanetsIterator.next();
-                final Query ordersQuery = session.createQuery("SELECT o FROM Order o WHERE o.planet = :planet");
-                ordersQuery.setParameter("planet", bestOne.name);
+                //final Planet bestOne = bestPlanetsIterator.next();
+                final String bestOne = bestPlanetsIterator.next()[0].toString();
+                final Query ordersQuery = session.getNamedQuery("select orders");
+                ordersQuery.setParameter("planet", bestOne);
                 final List<Order> orders = ordersQuery.list();
-                bestOne.clear();
+
                 orders.forEach(o -> session.delete(o));
                 return orders;
             }
@@ -66,7 +66,7 @@ public class GalakPizza implements GalakPizzaService {
     @Override
     public long countStandingOrders() {
         return this.runOnSession(session -> {
-            final Query ordersCount = session.createQuery("SELECT count(o)  FROM Order o ");
+            final Query ordersCount = session.getNamedQuery("count orders");
             final Long cnt = (Long) ordersCount.iterate().next();
             return cnt;
         });
