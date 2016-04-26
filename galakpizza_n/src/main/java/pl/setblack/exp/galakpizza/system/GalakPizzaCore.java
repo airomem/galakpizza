@@ -16,7 +16,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     private long orderSequence = 1;
 
-    private PriorityQueue<PlanetOrders> bestPlanets = new PriorityQueue<>(256);
+    private PriorityQueue<PlanetOrders.Wrapper> bestPlanets = new PriorityQueue<>(256);
 
     private AtomicLong ordersTotal = new AtomicLong(0);
 
@@ -41,11 +41,11 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
 
     private Optional<PlanetOrders> takeBestPlanet() {
 
-        PlanetOrders planet = this.bestPlanets.poll();
-        while (planet != null && planet.isEmptied()) {
+        PlanetOrders.Wrapper planet = this.bestPlanets.poll();
+        while (planet != null && planet.porders.isEmptied()) {
             planet = this.bestPlanets.poll();
         }
-        return Optional.ofNullable(planet);
+        return Optional.ofNullable(planet).map(p->p.porders);
 
     }
 
@@ -58,7 +58,8 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
         final PlanetOrders po = orders.computeIfAbsent(order.planet,
                 planetName -> new PlanetOrders(planetName));
         po.assignOrder(order);
-        this.bestPlanets.offer(po);
+
+        this.bestPlanets.offer(new PlanetOrders.Wrapper(po));
     }
 
     @Override

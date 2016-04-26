@@ -28,8 +28,12 @@ public class GalakPizza implements GalakPizzaService {
                 .build();
     }
 
-    public void close() {
+    public void destroy() {
         controller.erase();
+    }
+
+    public void safeClose() {
+        controller.close();
     }
 
     private void deleteFiles() {

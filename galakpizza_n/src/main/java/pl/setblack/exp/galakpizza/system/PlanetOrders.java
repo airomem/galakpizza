@@ -37,4 +37,20 @@ class PlanetOrders implements Serializable, Comparable<PlanetOrders> {
     public boolean isEmptied() {
         return emptied;
     }
+
+    public static class Wrapper implements  Comparable<Wrapper>,Serializable{
+        final PlanetOrders porders;
+
+        final int size;
+
+        public Wrapper(PlanetOrders porders) {
+            this.porders = porders;
+            this.size =  porders.orders.size();
+        }
+
+        @Override
+        public int compareTo(final Wrapper other) {
+            return other.size - this.size;
+        }
+    }
 }

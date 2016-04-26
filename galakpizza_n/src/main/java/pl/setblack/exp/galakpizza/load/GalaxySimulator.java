@@ -31,7 +31,7 @@ public class GalaxySimulator {
         final GalakPizza gp = new GalakPizza();
         final GalaxySimulator simulator = new GalaxySimulator(gp);
         Result result =   simulator.runGalaxy(time, 4, 1);
-        gp.close();
+        gp.destroy();
         return result;
     }
 
