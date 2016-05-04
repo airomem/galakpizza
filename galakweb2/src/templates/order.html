@@ -1,0 +1,10 @@
+<input type="text"   [(ngModel)]="planet"/>
+
+
+<input type="radio" name="variant" value="hawaii" (click)="selectVariant('hawaii')">
+<input type="radio" name="variant" value="margheritta" (click)="selectVariant('margheritta')">
+<input type="radio" name="variant" value="vegan" (click)="selectVariant('vegan')">
+
+<input type="range" min="0" max="2" [(ngModel)]="size" value="2" name="size"/>
+
+<button (click)="placeOrder()">Order!</button>
