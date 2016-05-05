@@ -9,7 +9,7 @@ import {Component} from 'angular2/core';
 
 export class OrderCtrl {
   planet : string;
-  size : number =  2;
+  size : number =  0;
   variant: string = "hawaii";
   constructor() {
 
@@ -20,7 +20,7 @@ export class OrderCtrl {
   }
 
   placeOrder() {
-    console.info("ordering:" + this.size+" @  " + this.variant+ "  on" +  this.planet);
+    console.info("ordeering:" + this.size+" @  " + this.variant+ "  on" +  this.planet);
   }
 
 }
