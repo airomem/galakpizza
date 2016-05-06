@@ -1,0 +1,30 @@
+.pizzaboy {
+  padding-left: 1em;
+  button {
+
+    box-shadow: 2px 2px 10px orange;
+
+    > img {
+      max-height: 2em;
+    }
+    &:active > img {
+
+      animation: odlot 4s;
+    }
+  }
+
+}
+
+@keyframes odlot {
+  0% {
+    transform: rotateZ(0deg) translateX(0%);
+  }
+
+  10% {
+    transform: rotateZ(180deg) translateX(0%);
+  }
+
+  100% {
+    transform: rotateZ(180deg) translateX(-1000%);
+  }
+}

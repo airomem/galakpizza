@@ -1,10 +1,19 @@
-<input type="text"   [(ngModel)]="planet"/>
+<section class="order">
+  <section class="planet">
+     <label><img src="images/planetc.png"/></label>
+    <input type="text" [(ngModel)]="planet"/>
+  </section>
 
+  <section class="variant">
+    <button (click)="selectVariant('HAWAII')">Hawaii</button>
+    <button (click)="selectVariant('MARGHERITA')">Margherita</button>
+    <button (click)="selectVariant('VEGETARIAN')">Vegetarian</button>
+  </section>
 
-<input type="radio" name="variant" value="hawaii" (click)="selectVariant('hawaii')">
-<input type="radio" name="variant" value="margheritta" (click)="selectVariant('margheritta')">
-<input type="radio" name="variant" value="vegan" (click)="selectVariant('vegan')">
-
-<input type="range" min="0" max="2" [(ngModel)]="size" value="2" name="size"/>
-
-<button (click)="placeOrder()">Order!</button>
+  <section class="size">
+    <input type="range" min="0" max="2" [(ngModel)]="size" value="2" name="size"/>
+  </section>
+  <section class="execute">
+    <button (click)="placeOrder()">Order!</button>
+  </section>
+</section>
