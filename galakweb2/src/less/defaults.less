@@ -22,3 +22,29 @@ input[type=text]  {
       box-shadow: inset 2px 2px 12px white;
    }
 }
+
+
+input, button,section, p {
+  animation: comic 17s infinite;
+  &:nth-child(1) {
+    animation-delay: 1s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 3s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 7s;
+  }
+}
+
+@keyframes comic {
+  0%{ transform: rotateZ(0deg);}
+
+  25%{ transform: rotateZ(-3deg);}
+
+  75%{ transform: rotateZ(3deg);}
+
+  100%{ transform: rotateZ(0deg);}
+}

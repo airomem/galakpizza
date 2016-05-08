@@ -29,7 +29,7 @@ public class GalakPizza implements GalakPizzaService {
             final Order orderEntity = new Order(planet, variant, size);
             final Long key = (Long) session.save(orderEntity);
 
-            //incrementPlanetCounter(planet, session);
+            incrementPlanetCounter(planet, session);
             return key;
         });
     }
@@ -45,17 +45,18 @@ public class GalakPizza implements GalakPizzaService {
 
     public List<Order> takeOrdersFromBestPlanet() {
         return this.runOnSession(session -> {
-            final Query bestPlanetQuery = session.getNamedQuery("select best planet");
+            final Query bestPlanetQuery = session.getNamedQuery("select best planet from table");
             bestPlanetQuery.setMaxResults(1);
-            final Iterator<Object[]> bestPlanetsIterator = bestPlanetQuery.iterate();
+            final Iterator<Planet> bestPlanetsIterator = bestPlanetQuery.iterate();
             if (bestPlanetsIterator.hasNext()) {
-                //final Planet bestOne = bestPlanetsIterator.next();
-                final String bestOne = bestPlanetsIterator.next()[0].toString();
+
+                final Planet bestOne = bestPlanetsIterator.next();
                 final Query ordersQuery = session.getNamedQuery("select orders");
-                ordersQuery.setParameter("planet", bestOne);
+                ordersQuery.setParameter("planet", bestOne.name);
                 final List<Order> orders = ordersQuery.list();
 
                 orders.forEach(o -> session.delete(o));
+                bestOne.clear();
                 return orders;
             }
             return Collections.EMPTY_LIST;

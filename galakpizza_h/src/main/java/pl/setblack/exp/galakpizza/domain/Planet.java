@@ -2,15 +2,17 @@ package pl.setblack.exp.galakpizza.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
+
 @Table(name="T_PLANET",
 indexes = {@Index(name="cnt_idx", columnList = "count", unique = false)} )
+@NamedQueries( {
+        @NamedQuery(name = "select best planet from table", query = "SELECT p  FROM Planet p " +
+                " ORDER BY p.count desc")
+
+})
 public class Planet {
     @Id
     public final String name;
