@@ -34,7 +34,7 @@ class PlanetOrders implements Serializable, Comparable<PlanetOrders> {
         return result;
     }
 
-    public boolean isEmptied() {
+    public boolean isEmpty() {
         return emptied;
     }
 

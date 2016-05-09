@@ -11,7 +11,7 @@ public class GalakPizzaTest extends  GalakPizzaTestBase<GalakPizza>{
 
     @After
     public void close() {
-        gp.close();
+        gp.destroy();
     }
 
 }

@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class GalakPizza implements GalakPizzaService {
-    final PersistenceController<GalakPizzaCore,GalakPizzaCore> controller;
+        final PersistenceController<GalakPizzaCore,GalakPizzaCore> controller;
 
     public GalakPizza() {
         controller = PrevaylerBuilder
@@ -36,19 +36,6 @@ public class GalakPizza implements GalakPizzaService {
         controller.close();
     }
 
-    private void deleteFiles() {
-        try {
-            String path = System.getProperty("user.home")
-                    + File.separator
-                    + "prevayler"
-                    + File.separator
-                    + "pizza";
-            FileUtils.deleteDirectory(new File(path));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
     public List<Order> takeOrdersFromBestPlanet() {
         return controller.executeAndQuery( core->core.takeOrdersFromBestPlanet());
@@ -63,6 +50,4 @@ public class GalakPizza implements GalakPizzaService {
     public long placeOrder(final String planet, final Variant variant, final Size size) {
         return controller.executeAndQuery( core -> core.placeOrder(planet,variant,size));
     }
-
-
 }
