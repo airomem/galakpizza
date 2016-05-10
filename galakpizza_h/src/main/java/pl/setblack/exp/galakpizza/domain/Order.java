@@ -16,7 +16,6 @@ import javax.persistence.*;
         @NamedQuery(name = "count orders", query = "SELECT count(o)  FROM Order o ")
 
 })
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Order {
 
     @Id

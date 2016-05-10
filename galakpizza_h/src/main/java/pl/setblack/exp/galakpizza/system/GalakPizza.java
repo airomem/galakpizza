@@ -11,10 +11,7 @@ import pl.setblack.exp.galakpizza.domain.Size;
 import pl.setblack.exp.galakpizza.domain.Variant;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class GalakPizza implements GalakPizzaService {
 
@@ -25,10 +22,9 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     public long placeOrder(String planet, Variant variant, Size size) {
-        return this.runOnSession(session -> {
+        return this.runInSession(session -> {
             final Order orderEntity = new Order(planet, variant, size);
             final Long key = (Long) session.save(orderEntity);
-
             incrementPlanetCounter(planet, session);
             return key;
         });
@@ -44,7 +40,7 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     public List<Order> takeOrdersFromBestPlanet() {
-        return this.runOnSession(session -> {
+        return this.runInSession(session -> {
             final Query bestPlanetQuery = session.getNamedQuery("select best planet from table");
             bestPlanetQuery.setMaxResults(1);
             final Iterator<Planet> bestPlanetsIterator = bestPlanetQuery.iterate();
@@ -66,7 +62,7 @@ public class GalakPizza implements GalakPizzaService {
 
     @Override
     public long countStandingOrders() {
-        return this.runOnSession(session -> {
+        return this.runInSession(session -> {
             final Query ordersCount = session.getNamedQuery("count orders");
             final Long cnt = (Long) ordersCount.iterate().next();
             return cnt;
@@ -74,7 +70,7 @@ public class GalakPizza implements GalakPizzaService {
     }
 
 
-    private <T> T runOnSession(Function<Session, T> dbCommand) {
+    private <T> T runInSession(Function<Session, T> dbCommand) {
         final Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
@@ -85,13 +81,11 @@ public class GalakPizza implements GalakPizzaService {
         } catch (ConstraintViolationException cve) {
             session.getTransaction().rollback();
             session.close();
-            return runOnSession(dbCommand);
+            return runInSession(dbCommand);
         } catch (Throwable t) {
             t.printStackTrace();
             throw new RuntimeException(t);
-
         }
-
     }
 
 }
