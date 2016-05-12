@@ -6,12 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-class PlanetOrders implements Serializable, Comparable<PlanetOrders> {
+class PlanetOrders implements Serializable {
     final String name;
 
     private List<Order> orders = new ArrayList<>();
-
-    private boolean emptied = true;
 
     public PlanetOrders(String name) {
         this.name = name;
@@ -19,23 +17,16 @@ class PlanetOrders implements Serializable, Comparable<PlanetOrders> {
 
     void assignOrder(final Order order) {
         this.orders.add(order);
-        this.emptied = false;
-    }
-
-    @Override
-    public int compareTo(final PlanetOrders other) {
-        return other.orders.size() - this.orders.size();
     }
 
     List<Order> takeOrders() {
         final List<Order> result = new ArrayList<>(this.orders);
         this.orders = new ArrayList<>();
-        this.emptied = true;
         return result;
     }
 
     public boolean isEmpty() {
-        return emptied;
+        return this.orders.isEmpty();
     }
 
     public static class Wrapper implements  Comparable<Wrapper>,Serializable{
