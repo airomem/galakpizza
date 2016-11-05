@@ -23,9 +23,9 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
     private AtomicLong ordersTotal = new AtomicLong(0);
 
     public void placeOrder(String planet, Variant variant, Size size) {
-
         final Order order = new Order(planet, variant, size);
         assignOrderToPlanet(order);
+        ordersTotal.incrementAndGet();
     }
 
     public List<Order> takeOrdersFromBestPlanet() {
