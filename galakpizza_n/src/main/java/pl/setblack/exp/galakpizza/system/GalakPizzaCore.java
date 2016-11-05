@@ -2,6 +2,7 @@ package pl.setblack.exp.galakpizza.system;
 
 import pl.setblack.airomem.core.Storable;
 import pl.setblack.exp.galakpizza.api.GalakPizzaService;
+import pl.setblack.exp.galakpizza.api.PlanetSummary;
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.domain.Size;
 import pl.setblack.exp.galakpizza.domain.Variant;
@@ -9,10 +10,12 @@ import pl.setblack.exp.galakpizza.domain.Variant;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable<GalakPizzaCore> {
-    private final Map<String, PlanetOrders> orders = new HashMap<>();
+    private final HashMap<String, PlanetOrders> orders = new HashMap<>();
 
     private long orderSequence = 1;
 
@@ -64,5 +67,15 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
     @Override
     public GalakPizzaCore getImmutable() {
         return this;
+    }
+
+    @Override
+    public Collection<PlanetSummary> getPlanetsSummary() {
+        return this.orders
+                .entrySet()
+                .stream()
+                .map((entry)-> new PlanetSummary(entry.getKey(), entry.getValue().size()))
+                .filter(p -> p.counter > 0)
+                .collect(Collectors.toList());
     }
 }

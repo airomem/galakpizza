@@ -1,0 +1,13 @@
+<div>
+  <p>there are {{orderCnt}} awaiting orders</p>
+  <table>
+    <tr *ngFor="let order of orders">
+      <td>
+        {{order.name}}
+      </td>
+      <td>
+        {{order.counter}}
+      </td>
+    </tr>
+  </table>
+</div>

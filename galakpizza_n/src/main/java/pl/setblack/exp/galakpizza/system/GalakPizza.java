@@ -1,19 +1,15 @@
 package pl.setblack.exp.galakpizza.system;
 
-import org.apache.commons.io.FileUtils;
 import pl.setblack.airomem.core.Command;
 import pl.setblack.airomem.core.PersistenceController;
-import pl.setblack.airomem.core.SimpleController;
-import pl.setblack.airomem.core.builders.PersistenceFactory;
 import pl.setblack.airomem.core.builders.PrevaylerBuilder;
 import pl.setblack.exp.galakpizza.api.GalakPizzaService;
+import pl.setblack.exp.galakpizza.api.PlanetSummary;
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.domain.Size;
 import pl.setblack.exp.galakpizza.domain.Variant;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public class GalakPizza implements GalakPizzaService {
@@ -75,4 +71,9 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     final TakeBestOrdersCommand takeBest = new TakeBestOrdersCommand();
+
+    @Override
+    public Collection<PlanetSummary> getPlanetsSummary() {
+        return controller.query(c -> c.getPlanetsSummary());
+    }
 }

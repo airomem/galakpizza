@@ -1,6 +1,7 @@
 package pl.setblack.exp.galakpizza.server;
 
 import pl.setblack.badass.Politician;
+import pl.setblack.exp.galakpizza.api.PlanetSummary;
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.system.GalakPizza;
 import ratpack.error.ServerErrorHandler;
@@ -11,6 +12,7 @@ import ratpack.server.RatpackServer;
 import ratpack.server.ServerConfig;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +40,7 @@ public class PizzaWebServer {
                                                 .prefix("order", placeOrderAction())
                                                 .prefix("takeOrders", takeOrdersAction())
                                                 .prefix("countOrders", countOrdersAction())
+                                                .prefix("debugOrders", showOrdersAction())
                                         )
                                         .register(registry ->
                                                 registry.add(ServerErrorHandler.class, (context, throwable) ->
@@ -84,6 +87,14 @@ public class PizzaWebServer {
                 .get(ctx -> {
                     final long orderCnt = gp.countStandingOrders();
                     ctx.render(String.valueOf(orderCnt));
+                });
+    }
+
+    private Action<Chain> showOrdersAction() {
+        return orderChain -> orderChain
+                .get(ctx -> {
+                    final Collection<PlanetSummary> orders = gp.getPlanetsSummary();
+                    ctx.render(Jackson.json(orders));
                 });
     }
 

@@ -9,10 +9,19 @@ import java.util.List;
 class PlanetOrders implements Serializable {
     final String name;
 
-    private List<Order> orders = new ArrayList<>();
+    private ArrayList<Order> orders ;
 
     public PlanetOrders(String name) {
+        this(name, new ArrayList<>());
+    }
+
+    public PlanetOrders(String name, ArrayList<Order> orders) {
         this.name = name;
+        this.orders = orders;
+    }
+
+    long size() {
+        return this.orders.size();
     }
 
     void assignOrder(final Order order) {
@@ -28,6 +37,9 @@ class PlanetOrders implements Serializable {
     public boolean isEmpty() {
         return this.orders.isEmpty();
     }
+
+
+
 
     public static class Wrapper implements  Comparable<Wrapper>,Serializable{
         final PlanetOrders porders;
