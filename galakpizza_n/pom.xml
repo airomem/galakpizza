@@ -53,7 +53,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <dependency>
             <groupId>pl.setblack</groupId>
             <artifactId>airomem-core</artifactId>
-            <version>1.0.5-SNAPSHOT</version>
+            <version>1.0.5</version>
         </dependency>
 
         <dependency>
