@@ -19,31 +19,29 @@ public abstract class GalakPizzaTestBase<G extends GalakPizzaService> {
     @Test
     public void shouldPlaceOrdetToPlanet() {
 
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
 
-        long orderId = gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
-
-        assertThat(orderId, is(greaterThan(0L)));
+        assertThat(gp.countStandingOrders(), is(greaterThan(0L)));
     }
 
     @Test
-    public void ordersShouldHaveVariousId() {
+    public void shouldHaveTwoOrders() {
 
 
-        long orderId1 = gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
-        long orderId2 = gp.placeOrder("planety", Variant.HAWAII, Size.MEDIUM);
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planety", Variant.HAWAII, Size.MEDIUM);
 
-        assertThat(orderId1, is(not(equalTo(orderId2))));
+        assertThat(gp.countStandingOrders(), is(equalTo(2)));
     }
 
     @Test
     public void singleOrderForGalaxyShouldBeProcessed() {
 
-
-        long orderId1 = gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
 
         final List<Order> orders = gp.takeOrdersFromBestPlanet();
 
-        assertThat(orders.get(0).id, is(equalTo(orderId1)));
+        assertThat(orders.get(0).planet, is(equalTo("planetx")));
     }
 
     @Test
