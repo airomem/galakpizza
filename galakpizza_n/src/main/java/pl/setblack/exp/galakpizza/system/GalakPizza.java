@@ -34,7 +34,7 @@ public class GalakPizza implements GalakPizzaService {
 
     @Override
     public List<Order> takeOrdersFromBestPlanet() {
-        return controller.executeAndQuery( takeBest);
+        return controller.executeAndQuery( core -> core.takeOrdersFromBestPlanet());
     }
 
     @Override
@@ -43,34 +43,9 @@ public class GalakPizza implements GalakPizzaService {
     }
 
     @Override
-    public long placeOrder(final String planet, final Variant variant, final Size size) {
-        return controller.executeAndQuery( new PlaceOrderCommand(planet,variant,size));
+    public void placeOrder(final String planet, final Variant variant, final Size size) {
+        controller.execute( core -> core.placeOrder(planet, variant, size));
     }
-
-    private static final class TakeBestOrdersCommand implements Command<GalakPizzaCore, List<Order>> {
-        @Override
-        public List<Order> execute(GalakPizzaCore system) {
-            return system.takeOrdersFromBestPlanet();
-        }
-    }
-    private static final class PlaceOrderCommand implements Command<GalakPizzaCore, Long> {
-        private final String planet;
-        private final Variant variant;
-        private final Size size;
-
-        public PlaceOrderCommand(String planet, Variant variant, Size size) {
-            this.planet = planet;
-            this.variant = variant;
-            this.size = size;
-        }
-
-        @Override
-        public Long execute(GalakPizzaCore system) {
-            return system.placeOrder(planet,variant, size);
-        }
-    }
-
-    final TakeBestOrdersCommand takeBest = new TakeBestOrdersCommand();
 
     @Override
     public Collection<PlanetSummary> getPlanetsSummary() {

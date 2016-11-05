@@ -69,16 +69,12 @@ public class PizzaWebServer {
     private Action<Chain> placeOrderAction() {
         return orderChain -> orderChain
                 .post(ctx -> {
-                    System.out.println("got post");
                     ctx.parse(IncomingOrder.class)
                             .onError(error -> System.out.println(error))
                             .then(order -> {
-                                System.out.println("got order");
-                                final long orderId = gp.placeOrder(order.planet, order.variant, order.size);
-                                ctx.render(String.valueOf(orderId));
+                                gp.placeOrder(order.planet, order.variant, order.size);
+                                ctx.render("ok");
                             });
-
-
                 });
     }
 

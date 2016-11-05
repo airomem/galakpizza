@@ -17,18 +17,15 @@ import java.util.stream.Stream;
 public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable<GalakPizzaCore> {
     private final HashMap<String, PlanetOrders> orders = new HashMap<>();
 
-    private long orderSequence = 1;
 
     private PriorityQueue<PlanetOrders.Wrapper> bestPlanets = new PriorityQueue<>(256);
 
     private AtomicLong ordersTotal = new AtomicLong(0);
 
-    public long placeOrder(String planet, Variant variant, Size size) {
-        final long id = orderSequence++;
-        final Order order = new Order(id, planet, variant, size);
+    public void placeOrder(String planet, Variant variant, Size size) {
+
+        final Order order = new Order(planet, variant, size);
         assignOrderToPlanet(order);
-        ordersTotal.incrementAndGet();
-        return id;
     }
 
     public List<Order> takeOrdersFromBestPlanet() {
