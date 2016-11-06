@@ -1,4 +1,5 @@
 <section class="order">
+
   <section class="planet">
      <label><img src="images/planetc.png"/></label>
     <input type="text" [(ngModel)]="planet"/>
@@ -8,12 +9,17 @@
     <button (click)="selectVariant('HAWAII')">Hawaii</button>
     <button (click)="selectVariant('MARGHERITA')">Margherita</button>
     <button (click)="selectVariant('VEGETARIAN')">Vegetarian</button>
+    <p>
+      ({{variant}})
+    </p>
   </section>
 
   <section class="size">
     <input type="range" min="0" max="2" [(ngModel)]="size" value="2" name="size"/>
+    <span>{{getSize(size)}}</span>
   </section>
   <section class="execute">
-    <button (click)="placeOrder()">Order!</button>
+    <button (click)="placeOrder()" [disabled]="!planet">Order!</button>
+    <p *ngIf="error" class="error">Error sending: {{error}}!</p>
   </section>
 </section>

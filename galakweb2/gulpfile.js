@@ -34,6 +34,9 @@ var options = {
     'localhost:8000' : 'http://localhost:8085'
   },
   onError : function(err, req, res ) {
+    res.writeHead(500, {
+      'Content-Type': 'text/plain'
+    });
     res.end('Something went wrong:' + err);
   }
 

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!error">
   <p>there are {{orderCnt}} awaiting orders</p>
   <table>
     <tr *ngFor="let order of orders">
@@ -10,4 +10,7 @@
       </td>
     </tr>
   </table>
+</div>
+<div *ngIf="error">
+  <span>Error encountered:{{error}}</span>
 </div>

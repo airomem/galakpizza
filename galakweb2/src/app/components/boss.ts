@@ -2,19 +2,22 @@ import {Component} from 'angular2/core';
 import {Http, RequestOptions, Headers, HTTP_PROVIDERS} from 'angular2/http';
 
 
-
 @Component({
   selector: 'boss-ctrl',
   viewProviders: [HTTP_PROVIDERS],
   templateUrl: 'templates/boss.html'
 })
 export class BossCtrl {
+   error : string ="";
 
-   orderCnt: Number;
+
+   bossData =  {
+      orderCnt: 0
+   };
 
   constructor(private http: Http) {
-      this.orderCnt = 0;
-      setInterval( ()=>this.countOrders(), 1000);
+      this.bossData.orderCnt = 0;
+      setInterval( ()=>this.countOrders(), 5000);
   }
 
   countOrders() {
@@ -25,10 +28,14 @@ export class BossCtrl {
     });
     this.http.get("/services/countOrders", options)
       .subscribe(res => {
-        this.orderCnt = Number(res.text());
-      });
+        this.error = "";
+        this.bossData.orderCnt = Number(res.text());
+      }, error => this.error = JSON.stringify(error));
   }
 
+  inc() {
+    this.bossData.orderCnt  =  this.bossData.orderCnt +1;
+  }
 
 }
 

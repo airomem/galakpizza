@@ -11,7 +11,8 @@ import {Http, RequestOptions, Headers, HTTP_PROVIDERS} from 'angular2/http';
 
 class Debug {
   orderCnt: Number;
-  orders:any
+  orders:any;
+  error: string = "";
 
   constructor(private http: Http) {
     this.orderCnt = 0;
@@ -27,8 +28,9 @@ class Debug {
     });
     this.http.get("/services/countOrders", options)
       .subscribe(res => {
+        this.error = "";
         this.orderCnt = Number(res.text());
-      });
+      }, error => this.error = JSON.stringify(error));
   }
   getOrders() {
     var headers = new Headers();

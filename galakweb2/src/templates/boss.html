@@ -1,5 +1,7 @@
 <section class="boss">
-
-  <p *ngIf="orderCnt &gt; 0 ">There is currently <output>{{orderCnt}}</output> pizzas waiting for delivery</p>
-  <p *ngIf="orderCnt == 0 ">There are no pizzas waiting for delivery.</p>
+  <p *ngIf="error" class="error">Error getting: {{error}}!</p>
+  <div *ngIf="!error">
+    <p *ngIf="bossData.orderCnt &gt; 0 ">There is currently <output>{{bossData.orderCnt}}</output> pizzas waiting for delivery</p>
+    <p *ngIf="bossData.orderCnt == 0 ">There are no pizzas waiting for delivery.</p>
+  </div>
 </section>
