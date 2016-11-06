@@ -1,4 +1,4 @@
-package pl.setblack.exp.galakpizza.system;
+package galakpizza;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +11,7 @@ public class GalakPizzaTest extends  GalakPizzaTestBase<GalakPizza>{
 
     @After
     public void close() {
-        gp.destroy();
+        gp.close();
     }
 
 }

@@ -1,4 +1,4 @@
-package pl.setblack.exp.galakpizza.system;
+package galakpizza;
 
 import org.junit.Before;
 

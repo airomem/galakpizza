@@ -1,4 +1,4 @@
-package pl.setblack.exp.galakpizza.domain;
+package galakpizza;
 
 import java.io.Serializable;
 
@@ -13,4 +13,16 @@ public class Order implements Serializable {
         this.size = size;
         this.variant = variant;
     }
+}
+
+enum Variant {
+    HAWAII,
+    MARGHERITA,
+    VEGETARIAN
+}
+
+enum Size {
+    MEDIUM,
+    LARGE,
+    XL
 }

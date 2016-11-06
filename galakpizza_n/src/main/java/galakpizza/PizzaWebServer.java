@@ -1,9 +1,7 @@
-package pl.setblack.exp.galakpizza.server;
+package galakpizza;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.setblack.badass.Politician;
-import pl.setblack.exp.galakpizza.api.PlanetSummary;
-import pl.setblack.exp.galakpizza.domain.Order;
-import pl.setblack.exp.galakpizza.system.GalakPizza;
 import ratpack.error.ServerErrorHandler;
 import ratpack.func.Action;
 import ratpack.handling.Chain;
@@ -99,3 +97,4 @@ public class PizzaWebServer {
         server.init();
     }
 }
+

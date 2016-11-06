@@ -1,8 +1,6 @@
-package pl.setblack.exp.galakpizza.api;
+package galakpizza;
 
-import pl.setblack.exp.galakpizza.domain.Order;
-import pl.setblack.exp.galakpizza.domain.Size;
-import pl.setblack.exp.galakpizza.domain.Variant;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,3 +14,4 @@ public interface GalakPizzaService  {
 
     Collection<PlanetSummary> getPlanetsSummary();
 }
+

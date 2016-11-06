@@ -1,4 +1,4 @@
-package pl.setblack.exp.galakpizza.api;
+package galakpizza;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

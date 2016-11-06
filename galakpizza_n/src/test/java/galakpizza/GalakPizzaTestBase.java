@@ -1,10 +1,6 @@
-package pl.setblack.exp.galakpizza.system;
+package galakpizza;
 
 import org.junit.Test;
-import pl.setblack.exp.galakpizza.api.GalakPizzaService;
-import pl.setblack.exp.galakpizza.domain.Order;
-import pl.setblack.exp.galakpizza.domain.Size;
-import pl.setblack.exp.galakpizza.domain.Variant;
 
 import java.util.List;
 
