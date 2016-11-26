@@ -27,7 +27,7 @@ public abstract class GalakPizzaTestBase<G extends GalakPizzaService> {
         gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
         gp.placeOrder("planety", Variant.HAWAII, Size.MEDIUM);
 
-        assertThat(gp.countStandingOrders(), is(equalTo(2)));
+        assertThat(gp.countStandingOrders(), is(equalTo(2L)));
     }
 
     @Test

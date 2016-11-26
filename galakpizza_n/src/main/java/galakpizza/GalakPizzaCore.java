@@ -13,9 +13,6 @@ import java.util.stream.Collectors;
 public class GalakPizzaCore implements GalakPizzaService, Serializable {
     private static final long serialVersionUID = 1L;
     private final HashMap<String, PlanetOrders> orders = new HashMap<>();
-
-    private transient FileWriter fileWriter;
-
     private AtomicLong ordersTotal = new AtomicLong(0);
 
 
@@ -41,10 +38,6 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable {
                 .map(p -> p.takeOrders()).orElse(Collections.EMPTY_LIST);
         this.ordersTotal.addAndGet(-result.size());
         bestPlanet.ifPresent(p -> Politician.beatAroundTheBush(() -> {
-            if (!WriteChecker.getContext().safe) {
-                getFileWriter().write("Delivered to" + p + "=" + result.size() + "\n");
-                getFileWriter().flush();
-            }
         }));
 
         return result;
@@ -54,14 +47,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable {
         return this.ordersTotal.get();
     }
 
-    private FileWriter getFileWriter() {
-        if (this.fileWriter == null) {
-            this.fileWriter = Politician.beatAroundTheBush(() -> new FileWriter("myout.txt", true));
-        }
-        return this.fileWriter;
-    }
-
-    public Collection<PlanetSummary> getPlanetsSummary() {
+   public Collection<PlanetSummary> getPlanetsSummary() {
         return this.orders
                 .entrySet()
                 .stream()
