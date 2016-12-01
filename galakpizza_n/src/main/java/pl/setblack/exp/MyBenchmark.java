@@ -37,6 +37,10 @@ import org.openjdk.jmh.annotations.State;
 import pl.setblack.exp.galakpizza.load.OrdersSimulator;
 import pl.setblack.exp.galakpizza.system.GalakPizzaCore;
 
+/**
+ * This class is only used for testing thing with JMH
+ * Real benchmark is in GalaxySimulator
+ */
 public class MyBenchmark {
 
     @State(Scope.Benchmark)
