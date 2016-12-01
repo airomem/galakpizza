@@ -4,23 +4,26 @@ import pl.setblack.badass.Politician;
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.system.GalakPizza;
 import ratpack.error.ServerErrorHandler;
+import ratpack.exec.Promise;
 import ratpack.func.Action;
 import ratpack.handling.Chain;
 import ratpack.jackson.Jackson;
+import ratpack.jackson.JsonRender;
 import ratpack.server.RatpackServer;
 import ratpack.server.ServerConfig;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
 
 public class PizzaWebServer {
 
-    final GalakPizza gp;
+    private final PizzaNonBlobkingService gp;
 
     public PizzaWebServer() {
-        this.gp = new GalakPizza();
+        this.gp = new PizzaNonBlobkingService(new GalakPizza());
     }
 
     private void init() {
@@ -31,7 +34,6 @@ public class PizzaWebServer {
                                     .embedded()
                                     .publicAddress(new URI("http://localhost"))
                                     .port(8085))
-                    .registryOf(registry -> registry.add("World!"))
                     .handlers(chain -> {
                                 chain
                                         .prefix("services", apiChain -> apiChain
@@ -54,25 +56,30 @@ public class PizzaWebServer {
     private Action<Chain> takeOrdersAction() {
         return orderChain -> orderChain
                 .post(ctx -> {
-                    final List<Order> bestOrders = gp.takeOrdersFromBestPlanet();
-                    final List<OutgoingOrder> out = bestOrders
-                            .stream()
+                    final CompletionStage<List<Order>> bestOrders = gp.takeOrdersFromBestPlanet();
+                    final CompletionStage<JsonRender> result = bestOrders.thenApply(list->list.stream()
                             .map(o -> OutgoingOrder.fromOrder(o))
-                            .collect(Collectors.toList());
-                    ctx.render(Jackson.json(out));
+                            .collect(Collectors.toList()))
+                            .thenApply(Jackson::json);
+                    final Promise promise = Promise.async(downstream -> {
+                        downstream.accept(result);
+                    });
+
+                    ctx.render(promise);
+
                 });
     }
 
     private Action<Chain> placeOrderAction() {
         return orderChain -> orderChain
                 .post(ctx -> {
-                    System.out.println("got post");
+
                     ctx.parse(IncomingOrder.class)
                             .onError(error -> System.out.println(error))
                             .then(order -> {
-                                System.out.println("got order");
-                                final long orderId = gp.placeOrder(order.planet, order.variant, order.size);
-                                ctx.render(String.valueOf(orderId));
+
+                                gp.placeOrder(order.planet, order.variant, order.size);
+                                ctx.render("-1");
                             });
 
 
