@@ -33,7 +33,9 @@ public class PizzaWebServer {
                             ServerConfig
                                     .embedded()
                                     .publicAddress(new URI("http://localhost"))
-                                    .port(8085))
+                                    .port(8085)
+                                    .threads(4)
+                                )
                     .handlers(chain -> {
                                 chain
                                         .prefix("services", apiChain -> apiChain
@@ -64,9 +66,7 @@ public class PizzaWebServer {
                     final Promise promise = Promise.async(downstream -> {
                         downstream.accept(result);
                     });
-
                     ctx.render(promise);
-
                 });
     }
 
