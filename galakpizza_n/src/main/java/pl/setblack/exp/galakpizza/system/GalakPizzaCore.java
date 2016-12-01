@@ -1,6 +1,5 @@
 package pl.setblack.exp.galakpizza.system;
 
-import pl.setblack.airomem.core.Storable;
 import pl.setblack.exp.galakpizza.api.GalakPizzaService;
 import pl.setblack.exp.galakpizza.domain.Order;
 import pl.setblack.exp.galakpizza.domain.Size;
@@ -11,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable<GalakPizzaCore> {
+public class GalakPizzaCore implements GalakPizzaService, Serializable {
     private final Map<String, PlanetOrders> orders = new HashMap<>();
 
     private long orderSequence = 1;
@@ -59,10 +58,5 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable, Storable
         po.assignOrder(order);
 
         this.bestPlanets.offer(new PlanetOrders.Wrapper(po));
-    }
-
-    @Override
-    public GalakPizzaCore getImmutable() {
-        return this;
     }
 }
