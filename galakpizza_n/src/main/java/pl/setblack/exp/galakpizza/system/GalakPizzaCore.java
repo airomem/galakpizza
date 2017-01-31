@@ -40,7 +40,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable {
 
     private Optional<PlanetOrders> takeBestPlanet() {
         PlanetOrders.Wrapper planet = this.bestPlanets.poll();
-        while (planet != null && planet.porders.isEmpty()) {
+        while (planet != null && planet.porders.size() != planet.size) {
             planet = this.bestPlanets.poll();
         }
         return Optional.ofNullable(planet).map(p->p.porders);

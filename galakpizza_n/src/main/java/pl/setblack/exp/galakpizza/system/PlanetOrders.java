@@ -25,8 +25,8 @@ class PlanetOrders implements Serializable {
         return result;
     }
 
-    public boolean isEmpty() {
-        return this.orders.isEmpty();
+    public int size() {
+        return this.orders.size();
     }
 
     public static class Wrapper implements  Comparable<Wrapper>,Serializable{
