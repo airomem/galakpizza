@@ -88,6 +88,25 @@ public abstract class GalakPizzaTestBase<G extends GalakPizzaService> {
     }
 
     @Test
+    public void planetWithManyOrdersShouldntBeBetterAfterProcessed() {
+
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
+        gp.placeOrder("planety", Variant.HAWAII, Size.LARGE);
+        gp.takeOrdersFromBestPlanet();
+        gp.placeOrder("planetx", Variant.HAWAII, Size.LARGE);
+
+        final List<Order> orders = gp.takeOrdersFromBestPlanet();
+
+        assertThat(orders.size(), is(equalTo(2)));
+        assertThat(orders.get(0).planet, is(equalTo("planety")));
+        assertThat(orders.get(1).planet, is(equalTo("planety")));
+    }
+
+    @Test
     public void allPlanetsShouldBeEventuallyProcessed() {
 
 
