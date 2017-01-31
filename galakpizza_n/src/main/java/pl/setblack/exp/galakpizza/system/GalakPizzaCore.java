@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 public class GalakPizzaCore implements GalakPizzaService, Serializable {
-    private final Map<String, PlanetOrders> orders = new HashMap<>();
+    private final Map<String, PlanetOrders> orders = new HashMap<>(10000);
 
     private long orderSequence = 1;
 
@@ -32,6 +32,7 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable {
         if (planetOpt.isPresent()) {
             final PlanetOrders planet = planetOpt.get();
             List<Order> orders = planet.takeOrders();
+            this.orders.remove(planet.name);
             ordersTotal.addAndGet(-orders.size());
             return orders;
         }
@@ -40,10 +41,10 @@ public class GalakPizzaCore implements GalakPizzaService, Serializable {
 
     private Optional<PlanetOrders> takeBestPlanet() {
         PlanetOrders.Wrapper planet = this.bestPlanets.poll();
-        while (planet != null && planet.porders.size() != planet.size) {
+        while (planet != null && planet.porders.isEmptied()) {
             planet = this.bestPlanets.poll();
         }
-        return Optional.ofNullable(planet).map(p->p.porders);
+        return Optional.ofNullable(planet).map(p -> p.porders);
 
     }
 

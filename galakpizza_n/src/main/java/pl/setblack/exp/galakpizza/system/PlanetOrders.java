@@ -20,23 +20,23 @@ class PlanetOrders implements Serializable {
     }
 
     List<Order> takeOrders() {
-        final List<Order> result = new ArrayList<>(this.orders);
-        this.orders = new ArrayList<>();
+        final List<Order> result = this.orders;
+        this.orders = null;
         return result;
     }
 
-    public int size() {
-        return this.orders.size();
+    public boolean isEmptied() {
+        return orders == null;
     }
 
-    public static class Wrapper implements  Comparable<Wrapper>,Serializable{
+    public static class Wrapper implements Comparable<Wrapper>, Serializable {
         final PlanetOrders porders;
 
         final int size;
 
         public Wrapper(PlanetOrders porders) {
             this.porders = porders;
-            this.size =  porders.orders.size();
+            this.size = porders.orders.size();
         }
 
         @Override
