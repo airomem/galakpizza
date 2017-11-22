@@ -8,7 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="T_ORDER")
+@Table(name="T_ORDER",
+        indexes = {@Index(name="planet_idx", columnList = "planet", unique = false)})
 @NamedQueries( {
         @NamedQuery(name = "select best planet", query = "SELECT o.planet, count(o)  FROM Order o " +
                 " GROUP BY o.planet ORDER BY count(o) desc"),
