@@ -15,7 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url"> jdbc:mysql://localhost/galakpizza</property>
+        <property name="connection.url">jdbc:tc:mysql:8.0.30://galakpizza</property>
         <property name="connection.username">test</property>
         <property name="connection.password">test</property>
 

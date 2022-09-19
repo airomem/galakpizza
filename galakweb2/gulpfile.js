@@ -31,7 +31,7 @@ var options = {
     '^/services/' : '/services/'      // rewrite paths
   },
   proxyTable: {
-    'localhost:8000' : 'http://localhost:8085'
+    'localhost:8010' : 'http://localhost:8085'
   },
   onError : function(err, req, res ) {
     res.end('Something went wrong:' + err);
@@ -130,6 +130,6 @@ gulp.task('serve', function() {
     .use( connectLr())
     .use(proxy)
     .use(express.static(targetDir))
-    .listen(8000);
-  open('http://localhost:' + 8000 + '/');
+    .listen(8010);
+  open('http://localhost:' + 8010 + '/');
 });

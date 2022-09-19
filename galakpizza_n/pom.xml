@@ -20,7 +20,7 @@
         <dependency>
             <groupId>pl.setblack</groupId>
             <artifactId>airomem-core</artifactId>
-            <version>1.2.0-SNAPSHOT</version>
+            <version>1.2.0</version>
         </dependency>
 
         <dependency>
@@ -56,7 +56,6 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <properties>
@@ -76,6 +75,14 @@
                     <compilerVersion>${javac.target}</compilerVersion>
                     <source>${javac.target}</source>
                     <target>${javac.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>pl.setblack.exp.galakpizza.load.GalaxySimulator</mainClass>
                 </configuration>
             </plugin>
             <plugin>

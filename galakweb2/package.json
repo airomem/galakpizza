@@ -21,10 +21,10 @@
   "devDependencies": {
     "express": "^4.13.4",
     "gulp": "3.9.0",
+    "gulp-livereload": "^3.7.0",
     "gulp-rename": "1.2.2",
     "gulp-traceur": "0.17.2",
     "gulp-webserver": "0.9.1",
-    "gulp-livereload": "^3.7.0",
     "http-proxy-middleware": "^0.15.0"
   }
 }
