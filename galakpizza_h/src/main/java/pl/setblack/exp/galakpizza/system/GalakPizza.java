@@ -12,6 +12,7 @@ import pl.setblack.exp.galakpizza.domain.Variant;
 
 import java.util.*;
 import java.util.function.Function;
+import javax.persistence.PersistenceException;
 
 public class GalakPizza implements GalakPizzaService {
 
@@ -82,6 +83,15 @@ public class GalakPizza implements GalakPizzaService {
             session.getTransaction().rollback();
             session.close();
             return runInSession(dbCommand);
+        } catch (PersistenceException pe) {
+            if (pe.getCause() instanceof ConstraintViolationException) {
+                session.getTransaction().rollback();
+                session.close();
+                return runInSession(dbCommand);
+            } else {
+                pe.printStackTrace();
+                throw new RuntimeException(pe);
+            }
         } catch (Throwable t) {
             t.printStackTrace();
             throw new RuntimeException(t);

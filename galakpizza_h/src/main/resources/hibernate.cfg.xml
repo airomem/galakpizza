@@ -15,6 +15,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!--property name="connection.url"> jdbc:mysql://localhost/galakpizza</property-->
         <property name="connection.url">jdbc:tc:mysql:8.0.30://galakpizza</property>
         <property name="connection.username">test</property>
         <property name="connection.password">test</property>
@@ -33,7 +34,7 @@
         <property name="hibernate.c3p0.acquireRetryDelay">250</property>
 
         <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
 
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class"> org.hibernate.cache.NoCacheProvider</property>
