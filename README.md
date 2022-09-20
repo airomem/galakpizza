@@ -5,7 +5,8 @@ go to galakpizza_n
 1. build with maven
 2. run pl.setblack.exp.galakpizza.server.PizzaWebServer 
 (it is java class with main)
-
+3. run a simple benchmark
+`mvn verify exec:java`
 and You have rest server for galakweb2
 
 #client
